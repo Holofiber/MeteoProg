@@ -1,0 +1,12 @@
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\bin\Debug\MeteoProg.exe.config
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\bin\Debug\MeteoProg.exe
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\bin\Debug\MeteoProg.pdb
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\bin\Debug\HtmlAgilityPack.dll
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\bin\Debug\HtmlAgilityPack.pdb
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\bin\Debug\HtmlAgilityPack.xml
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.csprojResolveAssemblyReference.cache
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.Properties.Resources.resources
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.csproj.GenerateResource.Cache
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.csproj.CoreCompileInputs.cache
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.exe
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.pdb

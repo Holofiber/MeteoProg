@@ -14,6 +14,10 @@ namespace MeteoProg
     {
         public Form1()
         {
+            Parser a = new Parser();
+
+            a.Pars();
+
             InitializeComponent();
         }
     }
