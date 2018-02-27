@@ -2,7 +2,11 @@
 {
     public interface IWeatherData
     {
-        int Temperature { get; set; }
+        int TemperatureMax { get; set; }
+
+        int TemperatureMin { get; set; }
+
+        int TemperatureCurrent { get; set; }
 
         float Pressure { get; set; }
 

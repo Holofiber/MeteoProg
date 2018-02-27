@@ -1,36 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace MeteoProg
 {
    public class Parser
     {
+        public Parser()
+        {
+        }
+
+        public Parser(Sinoptic sinoptic)
+        {
+            _sinoptic = sinoptic;
+        }
+
+        public readonly Sinoptic _sinoptic = new Sinoptic();
+
         public void Pars()
         {
-            var html = @"https://ua.sinoptik.ua/погода-львів";
+            var sinopticLviv = @"https://ua.sinoptik.ua/погода-львів";
 
             HtmlWeb web = new HtmlWeb();
 
-            var htmlDoc = web.Load(html);
+            var htmlDoc = web.Load(sinopticLviv);
 
-            var node = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"bd1c\"]/div[1]/div[1]/div[1]/p[2]");
-            
+            var currenTemperature = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"bd1c\"]/div[1]/div[1]/div[1]/p[2]");
+            var minTemerature = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"bd1\"]/div[2]/div[1]/span");
+            var maxTemerature = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"bd1\"]/div[2]/div[2]/span");
 
-            string pattern = @" \d";
-            var input = node.InnerText;
+            var pattern = @"[+-]\d\d";
+
+            _sinoptic.TemperatureCurrent = RegexData(currenTemperature.InnerText, pattern);
+            _sinoptic.TemperatureMin = RegexData(minTemerature.InnerText, pattern);
+            _sinoptic.TemperatureMax = RegexData(maxTemerature.InnerText, pattern);
+
+        }
+
+        public int RegexData(string input, string pattern)
+        {
+            int result = 0;
 
             foreach (Match m in Regex.Matches(input, pattern))
             {
-                Console.WriteLine("'{0}' found at index {1}.", m.Value, m.Index);
+                 result = Convert.ToInt32(m.Value);
             }
 
-
-            var t = 10 - 1;
+            return result;
         }
     }
 }

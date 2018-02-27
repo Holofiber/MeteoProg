@@ -10,3 +10,4 @@ C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.csproj.GenerateResour
 C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.csproj.CoreCompileInputs.cache
 C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.exe
 C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.pdb
+C:\Repos\MeteoProg\MeteoProg\MeteoProg\obj\Debug\MeteoProg.Form1.resources
