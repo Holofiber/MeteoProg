@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MeteoProg.Days;
 
 namespace MeteoProg
 {
@@ -13,9 +14,9 @@ namespace MeteoProg
     {
         public Form1()
         {
-            Parser a = new Parser();
-
-            a.Pars();
+            DaysOfWeek c = new DaysOfWeek();
+            
+            c.Days();
 
             InitializeComponent();
         }
