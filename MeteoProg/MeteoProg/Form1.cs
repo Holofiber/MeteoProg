@@ -20,5 +20,10 @@ namespace MeteoProg
 
             InitializeComponent();
         }
+
+        private void SearchTB_TextChanged(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }
