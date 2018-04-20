@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeteoProg
 {
-    class WeatherDataData : IWeatherData
+    class WeatherDataData 
     {
         public int Temperature { get; set; }
 
