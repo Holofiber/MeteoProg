@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using BussinesLogic;
@@ -12,11 +13,33 @@ namespace Console
         static void Main(string[] args)
         {
             var weatherProviderType = GetWeatherProviderTypeParameter(args);
-            var loggerType = ConfigurationManager.AppSettings["loggerOutput"];
+            var loggerType = ConfigurationManager.AppSettings["loggerType"];
+            var compositeLoggers = ConfigurationManager.AppSettings["CompositeLoggers"];
+            var logfilename = ConfigurationManager.AppSettings["loggerFileName"];
+            var loggerTyps = compositeLoggers.Split(',').ToList();
+            List<ILogger> logList = new List<ILogger>();
 
-            ILogger logger = LoggerFactory.Create(loggerType);
+            foreach (var type in loggerTyps)
+            {
+                if(type == "ConsoleLogger")
+                    logList.Add(LoggerFactory.Create(type));
+                if (type == "FileLogger")
+                {
+                    logList.Add(LoggerFactory.Create(type));
+                }
+                if (type== "DebugOutputLogger")
+                {
+                    logList.Add(LoggerFactory.Create(type));
+                }
+            }
 
-            IWeatherDataProvider sinoticWeatherProvider = WeatherDataProviderFactory.Create(weatherProviderType, logger);
+
+            ILogger logger = LoggerFactory.Create(loggerType, logList);
+            
+            var comositLog = new CompositeLogger(logList);
+
+            IWeatherDataProvider sinoticWeatherProvider =
+                WeatherDataProviderFactory.Create(weatherProviderType, logger);
 
             SollarBatteryEstimator battery = new SollarBatteryEstimator(sinoticWeatherProvider, logger);
 
@@ -37,6 +60,8 @@ namespace Console
                 logger.Error($"{d:d} weather is: T max: {data.TemperatureMax}, T min: {data.TemperatureMin}");
                 d = d.AddDays(1);
             }
+
+            System.Console.ReadKey();
         }
 
         private static string GetWeatherProviderTypeParameter(string[] args)
