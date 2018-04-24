@@ -1,6 +1,6 @@
 ﻿using System;
 using BussinesLogic;
-using BussinesLogic.Logger;
+using BussinesLogic.Loggers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 

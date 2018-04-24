@@ -1,5 +1,5 @@
 ﻿using System;
-using BussinesLogic.Logger;
+using BussinesLogic.Loggers;
 
 
 namespace BussinesLogic

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BussinesLogic.Logger
+namespace BussinesLogic.Loggers
 {
     public class ConsoleLogger : ILogger
     {

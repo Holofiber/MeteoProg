@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BussinesLogic.Logger;
+using BussinesLogic.Loggers;
 using BussinesLogic.MeteoSite;
 
 namespace BussinesLogic

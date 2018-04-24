@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace BussinesLogic.Logger
+namespace BussinesLogic.Loggers
 {
     public class DebugOutputLogger : ILogger
     {

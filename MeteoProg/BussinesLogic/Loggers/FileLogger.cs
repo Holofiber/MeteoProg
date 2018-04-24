@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.IO;
 
-namespace BussinesLogic.Logger
+namespace BussinesLogic.Loggers
 {
     public class FileLogger : ILogger
     {

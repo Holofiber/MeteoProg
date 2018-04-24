@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BussinesLogic.Logger
+namespace BussinesLogic.Loggers
 {
     public static class LoggerFactory
     {
-        public static ILogger Create(string loggerType, List<ILogger> loggerTyps = null)
+        public static ILogger Create(string loggerType, List<ILogger> loggersList = null)
         {
             switch (loggerType)
             {
@@ -16,7 +16,7 @@ namespace BussinesLogic.Logger
                 case "FileLogger":
                     return new FileLogger();
                 case "Composite":
-                    return new CompositeLogger(loggerTyps);
+                    return new CompositeLogger(loggersList);
                 default:
                     throw new InvalidOperationException();
             }

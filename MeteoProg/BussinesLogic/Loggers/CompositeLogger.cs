@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BussinesLogic.Logger
+namespace BussinesLogic.Loggers
 {
     public class CompositeLogger : ILogger
     {

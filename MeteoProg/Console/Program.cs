@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using BussinesLogic;
-using BussinesLogic.Logger;
+using BussinesLogic.Loggers;
 
 
 namespace Console
@@ -12,56 +13,84 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            var weatherProviderType = GetWeatherProviderTypeParameter(args);
-            var loggerType = ConfigurationManager.AppSettings["loggerType"];
-            var compositeLoggers = ConfigurationManager.AppSettings["CompositeLoggers"];
-            var logfilename = ConfigurationManager.AppSettings["loggerFileName"];
-            var loggerTyps = compositeLoggers.Split(',').ToList();
-            List<ILogger> logList = new List<ILogger>();
+            var settings = LoadSettings();
+            var logger = LoadLogger(settings);
 
-            foreach (var type in loggerTyps)
-            {
-                if(type == "ConsoleLogger")
-                    logList.Add(LoggerFactory.Create(type));
-                if (type == "FileLogger")
-                {
-                    logList.Add(LoggerFactory.Create(type));
-                }
-                if (type== "DebugOutputLogger")
-                {
-                    logList.Add(LoggerFactory.Create(type));
-                }
-            }
-
-
-            ILogger logger = LoggerFactory.Create(loggerType, logList);
-            
-            var comositLog = new CompositeLogger(logList);
-
-            IWeatherDataProvider sinoticWeatherProvider =
-                WeatherDataProviderFactory.Create(weatherProviderType, logger);
-
-            SollarBatteryEstimator battery = new SollarBatteryEstimator(sinoticWeatherProvider, logger);
+            var sinoticWeatherProvider = WeatherDataProviderFactory.Create(settings.ProviderName, logger);
+            var battery = new SollarBatteryEstimator(sinoticWeatherProvider, logger);
 
             //-------------------------------------------------------------------
-
-            var today = sinoticWeatherProvider.GetTodaysWeather();
-            var weak = sinoticWeatherProvider.GetWeaklyWeather();
-            var poserestimat = battery.GetEnergyEstimationForWeak();
-
-            logger.Info($"Estimate is: {poserestimat}");
-
-            var d = DateTime.Today;
-
-            logger.Warning($"Today weather is: T max: {today.TemperatureMax}, T min: {today.TemperatureMin}");
-            logger.Info("__________________________________________________");
-            foreach (var data in weak)
-            {
-                logger.Error($"{d:d} weather is: T max: {data.TemperatureMax}, T min: {data.TemperatureMin}");
-                d = d.AddDays(1);
-            }
+            WeatherAuditor weatherAuditor = new WeatherAuditor(logger, sinoticWeatherProvider, battery);
+            weatherAuditor.DoSomthing();
 
             System.Console.ReadKey();
+        }
+
+        public class WeatherAuditor
+        {
+            private readonly ILogger logger;
+            private readonly IWeatherDataProvider weatherdatapprovider;
+            private readonly SollarBatteryEstimator battery;
+
+
+            public WeatherAuditor(ILogger logger, IWeatherDataProvider weatherdatapprovider, SollarBatteryEstimator battery)
+            {
+                this.logger = logger;
+                this.weatherdatapprovider = weatherdatapprovider;
+                this.battery = battery;
+            }
+
+            public void DoSomthing()
+            {
+
+                var today = weatherdatapprovider.GetTodaysWeather();
+                var weak = weatherdatapprovider.GetWeaklyWeather();
+                var poserestimat = battery.GetEnergyEstimationForWeak();
+
+                logger.Info($"Estimate is: {poserestimat}");
+
+                var d = DateTime.Today;
+
+                logger.Warning($"Today weather is: T max: {today.TemperatureMax}, T min: {today.TemperatureMin}");
+                
+                foreach (var data in weak)
+                {
+                    logger.Error($"{d:d} weather is: T max: {data.TemperatureMax}, T min: {data.TemperatureMin}");
+                    d = d.AddDays(1);
+                }
+            }
+        }
+
+
+        private static ILogger LoadLogger(ApplicationSettings settings)
+        {
+            List<ILogger> loggersList = new List<ILogger>();
+
+            if (settings.LoggerTyppe == "Composite")
+            {
+                foreach (var type in settings.CompositionLoggers)
+                {
+                    loggersList.Add(LoggerFactory.Create(type));
+                }
+            }
+
+            return LoggerFactory.Create(settings.LoggerTyppe, loggersList);
+        }
+
+
+        public static ApplicationSettings LoadSettings()
+        {
+            ApplicationSettings applicationSettings = new ApplicationSettings();
+
+            var compositeLoggers = ConfigurationManager.AppSettings["CompositeLoggers"];
+            var loggerTyps = compositeLoggers.Split(',').ToList();
+
+            applicationSettings.CompositionLoggers = loggerTyps;
+            applicationSettings.LoggerFileName = ConfigurationManager.AppSettings["LoggerFileName"];
+            applicationSettings.LoggerTyppe = ConfigurationManager.AppSettings["LoggerType"];
+            applicationSettings.ProviderName = ConfigurationManager.AppSettings["ProviderName"];
+
+            return applicationSettings;
         }
 
         private static string GetWeatherProviderTypeParameter(string[] args)

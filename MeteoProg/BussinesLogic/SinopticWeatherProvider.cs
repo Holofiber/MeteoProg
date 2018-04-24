@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BussinesLogic.Logger;
+using BussinesLogic.Loggers;
 using BussinesLogic.MeteoSite;
 using HtmlAgilityPack;
 

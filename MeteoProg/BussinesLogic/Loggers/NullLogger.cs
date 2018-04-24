@@ -1,4 +1,4 @@
-﻿namespace BussinesLogic.Logger
+﻿namespace BussinesLogic.Loggers
 {
     public class NullLogger : ILogger
     {
